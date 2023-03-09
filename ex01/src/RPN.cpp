@@ -1,4 +1,3 @@
-
 #include "RPN.hpp"
 //Rpn::Rpn(void) {}
 //Rpn::Rpn(Rpn const & src);
