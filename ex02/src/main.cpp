@@ -7,7 +7,7 @@ static void	printInfo(int size, std::string name, std::time_t time)	{
 }
 static int	inputError(std::string msg = "")	{
 	msg = msg.empty()? "Error" : "Error: " + msg;
-	std::cerr << msg << std::endl;
+	std::cout << msg << std::endl;
 	return (1);
 }
 	
@@ -20,7 +20,8 @@ int	main(int argc, char **argv)	{
 	while (*(++argv))	{
 		int n = toPositiveInt(*argv);
 		if (n < 0)
-			return inputError(*argv);
+			//return inputError(*argv);
+			return inputError();
 		else	{
 			v.push_back(n);
 			d.push_back(n);

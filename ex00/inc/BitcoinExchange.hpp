@@ -2,6 +2,8 @@
 #define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <sstream>
+# include <iomanip>
 # include <fstream>
 # include <exception>
 # include <map>
