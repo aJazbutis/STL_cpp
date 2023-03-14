@@ -28,11 +28,9 @@ Btc::Btc(char const *data)	{
 		}
 		std::string s1 = line.substr(0, f);
 		std::string s2 = line.substr(f + 1);
-//		std::cout << s1<<"|s1; " << s2 <<"|s2" << std::endl;
-//if (!s1.empty() && !s2.empty())	{
+//		std::cout << s1<<"|s1; |" << s2 <<"|s2" << std::endl;
 		s1 = trim(s1, " ,");
 		s2 = trim(s2, " ,");
-//}
 		if (!s1.empty() && !s2.empty())
 			_data[s1] = s2;
 		else	{
@@ -68,15 +66,34 @@ static bool	numberFormatOk(std::string const &s)	{
 	return true;
 }
 static bool	dateFormatOk(std::string const &s)	{
+	if (s.length() > 10 )
+		return false;
+	int i = 0;
+std::string str = s;
+	std::string::iterator it = str.end();
+	it--;
+	for (; it <= str.begin(); it--)	{
+		switch (i)	{
+			case 2:
+			case 4:
+				if (*it != '-')
+					return false;
+				break ;
+			default:
+				if (*it < '0' || *it > '9')
+					return false;
+		}
+		i++;
+	}
 	std::tm	timeinfo = {};
 	strptime(s.c_str(), "%Y-%m-%d", &timeinfo);
 	int year = timeinfo.tm_year + 1900;
 	int month = timeinfo.tm_mon + 1;
 	int day	= timeinfo.tm_mday;
 	int days = 28;
+	std::cout << year << " " << month << " " << day << std::endl;
 	if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31)
 		return false;
-	//std::cout << year << " " << month << " " << day << std::endl;
 	switch (month)	{
 		case 2:
 			/*1700, 1800, 1900, 2100, 2200, 2300, 2500, 2600 not leap years */
