@@ -7,9 +7,12 @@
 # include <map>
 # include <stdlib.h>
 # include <ctime>
+# include <string>
 
-#define DATABASE	"src/data.csv"
-
+#define DIGITS	"+-0123456789."
+//#define DATABASE	"src/data.csv"
+//#define DATABASE	"../cpp_09/data.csv"
+#define DATABASE "data/data.csv"
 class	Btc	{
 	private:
 		std::map<std::string, std::string>	_data;

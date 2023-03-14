@@ -12,8 +12,8 @@ static int	inputError(std::string msg = "")	{
 }
 	
 int	main(int argc, char **argv)	{
-	std::vector<int>	input1;
-	std::deque<int>		input2;
+	std::vector<int>	v;
+	std::deque<int>		d;
 
 	if (argc < 2)
 		return (0);
@@ -22,20 +22,18 @@ int	main(int argc, char **argv)	{
 		if (n < 0)
 			return inputError(*argv);
 		else	{
-			input1.push_back(n);
-			input2.push_back(n);
+			v.push_back(n);
+			d.push_back(n);
 		}
-//		std::cout << n << std::endl;
 	}
 	std::cout << "Before: ";
-	printOut(input1);
+	printOut(v);
 	std::time_t	t1, t2;
-//	t1 = mergeInsertionSort(input1, 0, input1.size() - 1);
-	t2 = mergeInsertionSort(input2, 0, input2.size() - 1);
-t1 = mergeInsertionSort(input1, 0, input1.size() - 1);
+	t1 = mergeInsertionSort(v, 0, v.size() - 1);
+	t2 = mergeInsertionSort(d, 0, d.size() - 1);
 	std::cout << "After: ";
-	printOut(input1);
-	printInfo(input1.size(), "vector", t1);
-	printInfo(input2.size(), "deque", t2);
+	printOut(v);
+	printInfo(v.size(), "vector", t1);
+	printInfo(d.size(), "deque", t2);
 	return (0);
 }
