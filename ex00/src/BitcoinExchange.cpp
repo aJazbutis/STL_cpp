@@ -17,7 +17,7 @@ Btc::Btc(char const *data)	{
 	if (!ifs.is_open())
 		throw (std::range_error("Could not access the database"));
 	std::string line;
-	std::getline(ifs, line
+	std::getline(ifs, line);
 	while(std::getline(ifs, line))	{
 		if (line.empty())
 			continue ;	
@@ -39,7 +39,7 @@ Btc::Btc(char const *data)	{
 		}
 	}
 	ifs.close();
-std::cout << _data.size() << std::endl;
+//std::cout << _data.size() << std::endl;
 /*	std::map<std::string, std::string>::iterator it = _data.begin();
 	for (; it != _data.end(); it++)	{
 	 	std::cout << it->first << ": " << it->second << std::endl;

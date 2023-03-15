@@ -10,7 +10,7 @@
 # include <ctime>
 # include <sys/time.h>
 
-#define DIGITS "+0123456789"
+#define DIGITS "0123456789"
 #define K 5
 
 int		toPositiveInt(std::string s);
