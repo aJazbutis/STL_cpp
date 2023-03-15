@@ -11,7 +11,7 @@
 # include <ctime>
 # include <string>
 
-#define DIGITS	"+-0123456789."
+#define DIGITS	"0123456789."
 //#define DATABASE	"src/data.csv"
 //#define DATABASE	"../cpp_09/data.csv"
 #define DATABASE "data/data.csv"

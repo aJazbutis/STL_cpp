@@ -54,15 +54,15 @@ static void valueError(std::string const &msg)	{
 }
 
 static bool	numberFormatOk(std::string const &s)	{
-	if (s.find_first_not_of(DIGITS) != std::string::npos)
-		return false;
 	if (s.find_first_of(".") != s.find_last_of("."))
 		return false;
-/* Linux doesn't recognize std::string::front ?? 
-	if (s.front() == '+' || s.front() == '-')	{*/
-	if (s[0] == '+' || s[0] == '-')	{
-		if (s.find_first_of("+-") != s.find_last_of("+-"))
-			return false;
+	std::size_t f = s.find_first_not_of(DIGITS);
+	if (f != 0 && f != std::string::npos)
+		return false;
+	if (!f)	{
+		if (s[f] == '+' || s[f] == '-')
+			return true;
+		return false;
 	}
 	return true;
 }

@@ -2,6 +2,7 @@
 #define PMERGEME_HPP
 
 # include <iostream>
+# include <set>
 # include <vector>
 # include <deque>
 # include <cctype>

@@ -8,12 +8,14 @@ static void	printInfo(int size, std::string name, std::time_t time)	{
 static int	inputError(std::string msg = "")	{
 	msg = msg.empty()? "Error" : "Error: " + msg;
 	std::cout << msg << std::endl;
-	return (1);
+	return (0);
 }
 	
+/*comment out set block to work with duplicates*/
 int	main(int argc, char **argv)	{
 	std::vector<int>	v;
 	std::deque<int>		d;
+	std::set<int>		s;
 
 	if (argc < 2)
 		return (0);
@@ -23,8 +25,18 @@ int	main(int argc, char **argv)	{
 			//return inputError(*argv);
 			return inputError();
 		else	{
-			v.push_back(n);
-			d.push_back(n);
+			if (s.find(n) == s.end())	{
+				s.insert(n);
+				v.push_back(n);
+				d.push_back(n);
+			}
+			else	{
+				std::cout << "Error: duplicate found: " << n << std::endl;
+				//return 0;
+				std::cout << "skipping it" << std::endl;
+			}
+			/*	v.push_back(n);
+				d.push_back(n);*/
 		}
 	}
 	std::cout << "Before: ";
