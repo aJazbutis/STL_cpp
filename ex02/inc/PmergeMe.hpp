@@ -20,7 +20,7 @@ std::time_t		getTime(void);
 
 template <class T>
 void	printOut(T &c)	{
-	typename T::iterator	it;
+	typename T::const_iterator	it;
 	for (it = c.begin(); it != c.end(); it++)	{
 		std::cout << *it << ' ';
 	}

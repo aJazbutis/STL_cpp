@@ -20,7 +20,9 @@ class	Btc	{
 		std::map<std::string, std::string>	_data;
 		Btc(void);
 		Btc(Btc const &src);
-		Btc	& operator=(Btc const &rhs); 
+		Btc	& operator=(Btc const &rhs);
+		bool	numberFormatOk(std::string const &s) const;
+		bool	dateFormatOk(std::string const &s) const;
 	public:
 		Btc(char const *data);
 		~Btc(void);
@@ -28,4 +30,12 @@ class	Btc	{
 };
 
 std::string trim(std::string &s, char const *c);
+/*std::map printer*/
+template <class T>
+void	printOutMap(T &t)	{
+	typename T::const_iterator it = t.begin();
+	for (; it != t.end(); it++)	{
+	 	std::cout << it->first << "->" << it->second << std::endl;
+	}
+}
 #endif
