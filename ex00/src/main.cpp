@@ -1,8 +1,9 @@
 #include "BitcoinExchange.hpp"
 
 static int argError(std::string msg = "Could not open file.")	{
-	std::cerr << "Error: " + msg << std::endl;
-	return (1);
+//	std::cerr << "Error: " + msg << std::endl;
+	std::cout << "Error: " + msg << std::endl;
+	return (0);
 }
 
 int	main(int argc, char **argv)	{

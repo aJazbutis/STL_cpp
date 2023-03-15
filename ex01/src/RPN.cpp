@@ -1,7 +1,17 @@
 #include "RPN.hpp"
-//Rpn::Rpn(void) {}
-//Rpn::Rpn(Rpn const & src);
-//		Rpn & Rpn::operator=(Rpn const & rhs);
+
+/*uncallable*/
+Rpn::Rpn(void) {}
+Rpn::Rpn(Rpn const & src): input(src.input), result(src.result){}
+Rpn & Rpn::operator=(Rpn const & rhs)	{
+	if (this == &rhs)
+		return (*this);
+	this->input = rhs.input;
+	this->result = rhs.result;
+	return *this;
+}
+
+/*real thing*/
 Rpn::Rpn(std::string arg): input(arg)	{
 	if (input.find_first_not_of("+-/* 0123456789") != std::string::npos)
 		throw std::range_error("non valid symbols.");
@@ -16,6 +26,7 @@ Rpn::Rpn(std::string arg): input(arg)	{
 }
 
 Rpn::~Rpn(void) {}
+
 int	Rpn::calculate(void)	{
 	std::string::iterator	it = input.begin();	
 	for (; it < input.end(); it++)	{

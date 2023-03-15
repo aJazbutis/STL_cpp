@@ -4,7 +4,6 @@
 # include <iostream>
 # include <vector>
 # include <deque>
-# include <list>
 # include <cctype>
 # include <climits>
 # include <stdlib.h>
@@ -35,7 +34,8 @@ void swap(T &a, T &b)	{
 	b = t;
 }
 
-/*just for vector & deque for list in sorting_.hpp*/
+/*just for vector & deque
+	the one that also handles list in sorting_.hpp*/
 template <class T>
 void	insertionSort(T &c)	{
 	typename T::iterator i1, i2;
