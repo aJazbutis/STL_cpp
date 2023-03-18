@@ -30,13 +30,11 @@ Rpn::~Rpn(void) {}
 int	Rpn::calculate(void)	{
 	std::string::iterator	it = input.begin();	
 	for (; it < input.end(); it++)	{
-		if (result.size() < 2)	{
-			if (isdigit(*it))	
-				result.push((*it) - '0');
-			else
-				throw std::range_error("bad format.");
-		}
+		if (isdigit(*it))	
+			result.push((*it) - '0');
 		else	{
+			if (result.size() < 2)
+				throw std::range_error("bad format.");
 			char	c = *it;
 			int b = result.top();
 			result.pop();
@@ -62,7 +60,7 @@ int	Rpn::calculate(void)	{
 			}
 		}
 	}
-	if (result.size() > 1)
-		throw std::range_error("bad format.");
+	if (result.size() != 1)
+		throw std::range_error("bad format: unfinished calculation.");
 	return (result.top());
 }

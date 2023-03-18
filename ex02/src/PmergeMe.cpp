@@ -1,13 +1,16 @@
 # include "PmergeMe.hpp"
 
 int	toPositiveInt(std::string s)	{
-	s = trim(s, " \t\r\n\v");
+	s = trim(s, " \t\r\n\v\f");
 	if (s.empty())
 		return (-1);
 	std::size_t f = s.find_first_not_of(DIGITS);
+	std::size_t l = s.find_last_not_of(DIGITS);
+	if (f != l)
+		return (-1);
 	if (f != std::string::npos && f != 0)
 		return (-1);
-	else if (f == 0 && s[f] != '+')
+	if (f == 0 && s[f] != '+')
 		return (-1);
 	double n = atof(s.c_str());
 	double m = INT_MAX;
