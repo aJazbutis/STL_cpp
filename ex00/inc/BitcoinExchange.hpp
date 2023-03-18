@@ -26,7 +26,7 @@ class	Btc	{
 	public:
 		Btc(char const *data);
 		~Btc(void);
-		void	run(std::ifstream & fs) const;
+		void	run(std::ifstream & fs);
 };
 
 std::string trim(std::string &s, char const *c);

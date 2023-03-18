@@ -29,18 +29,20 @@ Btc::Btc(char const *data)	{
 			ifs.close();
 			throw (std::range_error("Database corrupted: " + line));
 		}
-		std::string s1 = line.substr(0, f);
-		std::string s2 = line.substr(f + 1);
-		s1 = trim(s1, " ,\t\r\v");
-		s2 = trim(s2, " ,\t\r\v");
-		if (!s1.empty() && !s2.empty() && dateFormatOk(s1) && numberFormatOk(s2))
-			_data[s1] = s2;
+		std::string date = line.substr(0, f);
+		std::string rate = line.substr(f + 1);
+		date = trim(date, " ,\t\r\v\f");
+		rate = trim(rate, " ,\t\r\v\f");
+		if (!date.empty() && !rate.empty() && dateFormatOk(date) && numberFormatOk(rate))
+			_data[date] = rate;
 		else	{
 			ifs.close();
 			throw (std::range_error("Database corrupted: " + line));
 		}
 	}
 	ifs.close();
+	if (_data.empty())
+		throw (std::range_error("Database corrupted: empty database"));
 //std::cout << _data.size() << std::endl;
 //printOutMap(_data);
 }
@@ -56,6 +58,9 @@ bool	Btc::numberFormatOk(std::string const &s) const	{
 	if (s.find_first_of(".") != s.find_last_of("."))
 		return false;
 	std::size_t f = s.find_first_not_of(DIGITS);
+	std::size_t l = s.find_last_not_of(DIGITS);
+	if (f != l)
+		return false;
 	if (f != 0 && f != std::string::npos)
 		return false;
 	if (!f)	{
@@ -66,7 +71,7 @@ bool	Btc::numberFormatOk(std::string const &s) const	{
 	return true;
 }
 bool	Btc::dateFormatOk(std::string const &s)	const	{
-	if (s.length() > 10 || s.length() < 7)
+	if (s.length() != 10)
 		return false;
 	/*bit overkill*/
 	int i = 0;
@@ -121,7 +126,7 @@ static std::string	removeTrailingZero(double n)	{
 		s = s.substr(0, s.length() - 1);
 	return s;
 }
-void	Btc::run(std::ifstream &ifs)	const{
+void	Btc::run(std::ifstream &ifs)	{
 	std::string line;
 
 	std::getline(ifs, line);
@@ -133,19 +138,19 @@ void	Btc::run(std::ifstream &ifs)	const{
 			inputError(line);
 			continue ;
 		}
-		std::string s1 = line.substr(0, f);
-		std::string s2 = line.substr(f + 1);
-		s1 = trim(s1, " \t");
-		s2 = trim(s2, " \t");
-		if (s1.empty() || s2.empty())	{
+		std::string date = line.substr(0, f);
+		std::string rate = line.substr(f + 1);
+		date = trim(date, " \t");
+		rate = trim(rate, " \t");
+		if (date.empty() || rate.empty())	{
 			inputError(line);
 			continue ;
 		}
-		if (!numberFormatOk(s2))	{
-			inputError(s2);
+		if (!numberFormatOk(rate))	{
+			inputError(rate);
 			continue ;
 		}
-		double amount = atof(s2.c_str());
+		double amount = atof(rate.c_str());
 		if (amount < 0 || amount > 1000)	{
 			if (amount < 0)
 				valueError("not a positive number.");
@@ -154,15 +159,30 @@ void	Btc::run(std::ifstream &ifs)	const{
 			continue ;
 		}
 		try		{
-			double price = atof(_data.at(s1).c_str());
-			std::cout << s1 << " => " << s2 << " = ";
-			std::cout << removeTrailingZero(amount * price) << std::endl;	
+			double price = atof(_data.at(date).c_str());
+			std::cout << date << " => " << rate << " = ";
+			std::cout << removeTrailingZero(amount * price) << std::endl;
 		}
 		catch(...)		{
-			if (dateFormatOk(s1))
-				valueError("no information in database => " + s1);
+			if (dateFormatOk(date))	{
+				/*fix for changed subject requirement, also had to remove const qualifier from Btc::run() :(*/
+				_data[date] = rate;
+				std::map<std::string, std::string>::iterator	f = _data.find(date);
+				if (f != _data.begin())	{
+					double price = atof((--f)->second.c_str());
+					std::cout << date << " => " << rate << " = ";
+					std::cout << removeTrailingZero(amount * price);
+					std::cout << " (based on " << f->first << ')' << std::endl;
+					f++;
+				}
+				else
+					valueError("no information in database, nor earlier date is available => " + date);
+				_data.erase(f);
+				/*end of update */
+				//valueError("no information in database => " + date);
+			}
 			else
-				inputError(s1);
+				inputError(date);
 		}
 	}
 }
